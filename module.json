@@ -1,0 +1,14 @@
+{
+    "name": "CashOnDeliveryPayment",
+    "alias": "cashondeliverypayment",
+    "description": "Accept cash payments upon delivery. Configure fees and availability restrictions.",
+    "version": "1.0.0",
+    "keywords": ["payment", "cod", "cash"],
+    "priority": 0,
+    "providers": [
+        "Modules\\CashOnDeliveryPayment\\Providers\\CashOnDeliveryPaymentServiceProvider"
+    ],
+    "aliases": [],
+    "files": [],
+    "requires": []
+}

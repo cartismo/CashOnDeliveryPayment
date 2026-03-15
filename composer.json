@@ -1,7 +1,7 @@
 {
     "name": "cartismo/cash-on-delivery-payment",
     "description": "Cash on Delivery payment method for Cartismo",
-    "type": "laravel-module",
+    "type": "cartismo-module",
     "license": "MIT",
     "authors": [
         {
@@ -13,6 +13,13 @@
     "autoload": {
         "psr-4": {
             "Modules\\CashOnDeliveryPayment\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\CashOnDeliveryPayment\\Providers\\CashOnDeliveryPaymentServiceProvider"
+            ]
         }
     }
 }

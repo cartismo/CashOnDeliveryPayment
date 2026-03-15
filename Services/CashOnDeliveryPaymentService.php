@@ -2,99 +2,31 @@
 
 namespace Modules\CashOnDeliveryPayment\Services;
 
-use App\Models\InstalledModule;
+use App\Contracts\AbstractPaymentMethod;
 
-class CashOnDeliveryPaymentService
+class CashOnDeliveryPaymentService extends AbstractPaymentMethod
 {
-    protected ?array $settings = null;
-
     /**
-     * Get module settings
+     * Get icon identifier for this payment method
      */
-    public function getSettings(): array
+    public function getIcon(): string
     {
-        if ($this->settings === null) {
-            $module = InstalledModule::where('slug', 'cash-on-delivery-payment')->first();
-            $this->settings = $module?->settings ?? config('cashondeliverypayment.defaults', []);
-        }
-
-        return $this->settings;
+        return $this->settings['icon'] ?? 'banknotes';
     }
 
     /**
-     * Check if cash on delivery is enabled
+     * Get payment type: always offline for COD
      */
-    public function isEnabled(): bool
+    public function getType(): string
     {
-        return $this->getSettings()['enabled'] ?? false;
+        return self::TYPE_OFFLINE;
     }
 
     /**
-     * Get the display title
-     */
-    public function getTitle(): string
-    {
-        return $this->getSettings()['title'] ?? 'Cash on Delivery';
-    }
-
-    /**
-     * Get the description
-     */
-    public function getDescription(): string
-    {
-        return $this->getSettings()['description'] ?? '';
-    }
-
-    /**
-     * Calculate the COD fee for a given order total
-     */
-    public function calculateFee(float $orderTotal): float
-    {
-        $settings = $this->getSettings();
-        $feeType = $settings['fee_type'] ?? 'none';
-        $feeAmount = (float) ($settings['fee_amount'] ?? 0);
-
-        return match ($feeType) {
-            'fixed' => $feeAmount,
-            'percentage' => round($orderTotal * ($feeAmount / 100), 2),
-            default => 0,
-        };
-    }
-
-    /**
-     * Check if COD is available for a given order total
-     */
-    public function isAvailableForAmount(float $orderTotal): bool
-    {
-        $settings = $this->getSettings();
-
-        $minAmount = $settings['minimum_order_amount'] ?? null;
-        $maxAmount = $settings['maximum_order_amount'] ?? null;
-
-        if ($minAmount !== null && $orderTotal < $minAmount) {
-            return false;
-        }
-
-        if ($maxAmount !== null && $orderTotal > $maxAmount) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Get the payment instructions
-     */
-    public function getInstructions(): string
-    {
-        return $this->getSettings()['instructions'] ?? '';
-    }
-
-    /**
-     * Get the order status after payment
+     * Get default order status for COD orders
      */
     public function getOrderStatus(): string
     {
-        return $this->getSettings()['order_status'] ?? 'processing';
+        return $this->settings['order_status'] ?? 'processing';
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\CashOnDeliveryPayment\Services\CashOnDeliveryPaymentService;
 
 class SettingsController extends Controller
 {
@@ -20,18 +21,7 @@ class SettingsController extends Controller
 
     protected function getDefaultSettings(): array
     {
-        return [
-            'enabled' => false,
-            'title' => 'Cash on Delivery',
-            'description' => 'Pay with cash when your order is delivered.',
-            'instructions' => 'Please have the exact amount ready when the courier arrives.',
-            'fee_type' => 'none',
-            'fee_amount' => 0,
-            'minimum_order_amount' => null,
-            'maximum_order_amount' => null,
-            'order_status' => 'processing',
-            'sort_order' => 0,
-        ];
+        return CashOnDeliveryPaymentService::defaultSettings();
     }
 
     public function index(): Response

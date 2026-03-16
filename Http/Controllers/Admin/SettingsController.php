@@ -36,7 +36,10 @@ class SettingsController extends Controller
 
     public function index(): Response
     {
-        return Inertia::render('CashOnDeliveryPayment::Admin/Settings', $this->getMultiStoreData());
+        $data = $this->getMultiStoreData();
+        $data['translations'] = __('cashondeliverypayment::settings');
+
+        return Inertia::render('CashOnDeliveryPayment::Admin/Settings', $data);
     }
 
     public function update(Request $request): RedirectResponse

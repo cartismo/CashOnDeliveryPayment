@@ -8,8 +8,9 @@
     "providers": [
         "Modules\\CashOnDeliveryPayment\\Providers\\CashOnDeliveryPaymentServiceProvider"
     ],
-    "aliases": [],
+    "aliases": {},
     "files": [],
     "requires": [],
-    "type": "payment"
+    "type": "payment",
+    "is_core": true
 }
